@@ -7,13 +7,11 @@ RESET = "\033[0m"
 
 def generar_pregunta():
     operacion = random.choice(["suma", "resta", "multiplicación", "división"])
-    contador = 0
     if operacion == "suma":
         num1 = random.randint(1, 20)
         num2 = random.randint(1, 20)
         respuesta_correcta = num1 + num2
         pregunta = f"Vamos a sumar. ¿Cuánto es {num1} + {num2}?"
-
     elif operacion == "resta":
         num1 = random.randint(1, 20)
         num2 = random.randint(1, num1)
@@ -30,14 +28,12 @@ def generar_pregunta():
         num1 = respuesta_correcta * num2
         pregunta = f"Probemos una división. ¿Cuánto es {num1} ÷ {num2}?"
 
-
     return pregunta, respuesta_correcta
-
-                
+           
 def obtener_respuesta():
     while True:
         try:
-            respuesta = int(input("Tu respuesta: "))
+            respuesta = int(input("   Tu respuesta: "))
             return respuesta
         except ValueError:
             print("\nPor favor, ingresa un número entero válido.")
@@ -55,7 +51,7 @@ def retroalimentacion(respuesta_correcta, respuesta_estudiante):
     ]
 
     respuestas_incorrectas = [
-        f"¡Oh no, {nombre}! Esa no es la respuesta correcta. 😔\n",
+        f"¡Oh no, {nombre}! Esa no es la respuesta correcta. 😔",
         f"Inténtalo de nuevo, {nombre}. Te acercas. 💪",
         f"Incorrecto, {nombre}. Pero no te rindas, inténtalo otra vez. 🙌",
         f"No te preocupes, {nombre}. Todos cometen errores. Inténtalo de nuevo. 🤔",
@@ -63,23 +59,21 @@ def retroalimentacion(respuesta_correcta, respuesta_estudiante):
     ]
 
     intentos = 0
-    while intentos < 2:  # Permitir hasta 3 intentos
+    while intentos < 4:  # Permitir hasta 3 intentos
         if respuesta_estudiante == respuesta_correcta:
             print(GREEN + "\n\t" + RESET, random.choice(respuestas_correctas))
             return True
-        else:
+        elif intentos < 2:
             print("\n\t❌", random.choice(respuestas_incorrectas))
             print(" ")
             intentos += 1
             respuesta_estudiante = obtener_respuesta()
 
-    print("\t❌ Incorrecto. Ver el siguiente recurso: https://www.espaciohonduras.net/matematicas")
+        else:
+            print(f"\n\t❌ Incorrecto. La respuesta correcta es {respuesta_correcta}. Te sugerimos ver el siguiente recurso: \n\t   https://www.espaciohonduras.net/matematicas")
+            intentos += 2
     return False
     
-    
-
-
-
 
 def main():
     global nombre
